@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رزرو نوبت</title>
+    <link rel="stylesheet" href="./public/styles/rezerv.css"/>
+</head>
+
+<body dir="rtl">
+    <div id="header"></div>
+    <section class="appointment-page">
+
+        <div class="appointment-container">
+
+            <div class="appointment-header">
+                <h1>فرم ثبت نوبت</h1>
+                <p>لطفاً اطلاعات خود را وارد کنید تا همکاران ما جهت تأیید نوبت با شما تماس بگیرند.</p>
+            </div>
+
+            <form class="appointment-form">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>نام و نام خانوادگی</label>
+                        <input type="text" placeholder="نام کامل خود را وارد کنید">
+                    </div>
+
+                    <div class="form-group">
+                        <label>شماره تماس</label>
+                        <input type="tel" placeholder="09xxxxxxxxx">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>انتخاب خدمت</label>
+                        <select>
+                            <option>لطفاً انتخاب کنید</option>
+                            <option>ایمپلنت</option>
+                            <option>جرم گیری</option>
+                            <option>ارتودنسی</option>
+                            <option>کامپوزیت</option>
+                            <option>بلیچینگ</option>
+                            <option>عصب کشی</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>انتخاب پزشک</label>
+                        <select>
+                            <option>لطفاً انتخاب کنید</option>
+                            <option>دکتر احمدی</option>
+                            <option>دکتر مرادی</option>
+                            <option>دکتر رضایی</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>انتخاب تاریخ</label>
+                        <input type="date">
+                    </div>
+
+                    <div class="form-group">
+                        <label>انتخاب ساعت</label>
+                        <select>
+                            <option>لطفاً انتخاب کنید</option>
+                            <option>09:00</option>
+                            <option>10:00</option>
+                            <option>11:00</option>
+                            <option>12:00</option>
+                            <option>16:00</option>
+                            <option>17:00</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>توضیحات (اختیاری)</label>
+                    <textarea rows="4" placeholder="در صورت نیاز توضیحی وارد کنید..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    ثبت نهایی نوبت
+                </button>
+
+            </form>
+
+        </div>
+
+    </section>
+
+    <div id="footer"></div>
+    <script src="public/js/include.js"></script>
+</body>
+
+</html>

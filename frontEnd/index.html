@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>خانه</title>
+  <link rel="stylesheet" href="./public/styles/index.css">
+</head>
+
+<body dir="rtl">
+  <div id="header"></div>
+
+  <div class="container">
+    <div class="content">
+      <div class="imageTop">
+        <span>لبخند زیبا، اعتماد به نفس بیشتر</span>
+        <h2 class="btitr">ارائه بهترین خدمات</h2>
+        <h1 class="btitr">دندان پزشکی برای شما</h1>
+        <p class="bnaz">ما با استفاده از جدید ترین تکنولوژی و بهترین مواد در کنار شما هستیم تا با خیالی راحت لبخند
+          زیبایی داشته باشید</p>
+        <div class="btn">
+          <button class="rezerv"><img src="./public/icons/thin-0024_calendar_month_day_planner_events.png"
+              alt=""><span>رزرو نوبت</span></button>
+          <button class="serv"><img src="./public/icons/thin-0159_arrow_back_left.png" alt=""><span>مشاهده
+              خدمات</span></button>
+        </div>
+        <div>
+          <section class="services">
+            <div class="services-header">
+              <h2>خدمات ما</h2>
+              <p>با بهترین تجهیزات و پزشکان متخصص، خدمات کامل دندانپزشکی را ارائه می‌دهیم.</p>
+            </div>
+
+            <div class="services-grid">
+
+              <div class="service-card">
+                <div class="service-icon">🦷</div>
+                <h3>ایمپلنت دندان</h3>
+                <p>
+                  جایگزینی دائمی دندان‌های از دست رفته با بهترین متریال و ماندگاری بالا.
+                </p>
+                <a href="#">مشاهده بیشتر</a>
+              </div>
+
+              <div class="service-card">
+                <div class="service-icon">✨</div>
+                <h3>جرم گیری</h3>
+                <p>
+                  پاکسازی جرم و پلاک‌های دندانی برای حفظ سلامت لثه و جلوگیری از پوسیدگی.
+                </p>
+                <a href="#">مشاهده بیشتر</a>
+              </div>
+
+              <div class="service-card">
+                <div class="service-icon">😁</div>
+                <h3>کامپوزیت</h3>
+                <p>
+                  اصلاح طرح لبخند و زیبایی دندان‌ها با کامپوزیت‌های باکیفیت و طبیعی.
+                </p>
+                <a href="#">مشاهده بیشتر</a>
+              </div>
+
+              <div class="service-card">
+                <div class="service-icon">📐</div>
+                <h3>ارتودنسی</h3>
+                <p>
+                  مرتب‌سازی دندان‌ها و اصلاح ناهنجاری‌های فک و دندان با روش‌های نوین.
+                </p>
+                <a href="#">مشاهده بیشتر</a>
+              </div>
+
+              <div class="service-card">
+                <div class="service-icon">💡</div>
+                <h3>بلیچینگ</h3>
+                <p>
+                  سفید کردن دندان‌ها با روش‌های ایمن و حرفه‌ای برای لبخندی درخشان‌تر.
+                </p>
+                <a href="#">مشاهده بیشتر</a>
+              </div>
+
+              <div class="service-card">
+                <div class="service-icon">🩺</div>
+                <h3>عصب کشی</h3>
+                <p>
+                  درمان ریشه دندان با تجهیزات پیشرفته برای رفع درد و حفظ دندان طبیعی.
+                </p>
+                <a href="#">مشاهده بیشتر</a>
+              </div>
+
+            </div>
+          </section>
+
+        </div>
+      </div>
+
+    </div>
+    <aside class="sidebar">
+
+      <!-- 1) فرم رزرو نوبت -->
+      <section class="sidebar-box booking-box">
+        <h3 class="sidebar-title">رزرو نوبت</h3>
+
+        <form class="booking-form">
+          <div class="form-group">
+            <label for="service">انتخاب خدمت</label>
+            <select id="service" name="service">
+              <option value="">لطفاً انتخاب کنید</option>
+              <option value="cleaning">جرم گیری</option>
+              <option value="implant">ایمپلنت</option>
+              <option value="orthodontics">ارتودنسی</option>
+              <option value="composite">کامپوزیت</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="doctor">انتخاب دکتر</label>
+            <select id="doctor" name="doctor">
+              <option value="">لطفاً انتخاب کنید</option>
+              <option value="dr-ahmadi">دکتر احمدی</option>
+              <option value="dr-moradi">دکتر مرادی</option>
+              <option value="dr-rezaei">دکتر رضایی</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="date">انتخاب تاریخ</label>
+            <input type="date" id="date" name="date" />
+          </div>
+
+          <div class="form-group">
+            <label for="time">انتخاب ساعت</label>
+            <select id="time" name="time">
+              <option value="">لطفاً انتخاب کنید</option>
+              <option value="09:00">09:00</option>
+              <option value="10:00">10:00</option>
+              <option value="11:00">11:00</option>
+              <option value="12:00">12:00</option>
+              <option value="16:00">16:00</option>
+              <option value="17:00">17:00</option>
+            </select>
+          </div>
+
+          <button type="submit" class="main-btn">ثبت درخواست نوبت</button>
+        </form>
+      </section>
+
+      <!-- 2) نمایش دکترها -->
+      <section class="sidebar-box doctors-box">
+        <h3 class="sidebar-title">پزشکان ما</h3>
+
+        <div class="doctor-card">
+          <img src="https://via.placeholder.com/70" alt="دکتر احمدی" />
+          <div class="doctor-info">
+            <h4>دکتر احمدی</h4>
+            <p>متخصص ایمپلنت</p>
+            <a href="#">مشاهده پروفایل</a>
+          </div>
+        </div>
+
+        <div class="doctor-card">
+          <img src="https://via.placeholder.com/70" alt="دکتر مرادی" />
+          <div class="doctor-info">
+            <h4>دکتر مرادی</h4>
+            <p>متخصص ارتودنسی</p>
+            <a href="#">مشاهده پروفایل</a>
+          </div>
+        </div>
+
+        <div class="doctor-card">
+          <img src="https://via.placeholder.com/70" alt="دکتر رضایی" />
+          <div class="doctor-info">
+            <h4>دکتر رضایی</h4>
+            <p>متخصص زیبایی دندان</p>
+            <a href="#">مشاهده پروفایل</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3) نظرات بیماران -->
+      <section class="sidebar-box comments-box">
+        <h3 class="sidebar-title">نظرات بیماران</h3>
+
+        <div class="comment-item">
+          <p>
+            برخورد پزشکان بسیار عالی بود و روند درمانم خیلی خوب پیش رفت.
+          </p>
+          <span>— سارا محمدی</span>
+        </div>
+
+        <div class="comment-item">
+          <p>
+            کلینیک بسیار تمیز و منظم بود و از نتیجه درمانم کاملاً راضی هستم.
+          </p>
+          <span>— علی رضایی</span>
+        </div>
+
+        <div class="comment-item">
+          <p>
+            نوبت‌دهی سریع و رفتار پرسنل خیلی حرفه‌ای بود.
+          </p>
+          <span>— نگار کریمی</span>
+        </div>
+      </section>
+
+    </aside>
+  </div>
+  <div id="footer"></div>
+  <script src="public/js/include.js"></script>
+</body>
+
+</html>

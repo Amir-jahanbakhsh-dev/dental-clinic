@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ثبت نام کاربر</title>
+  <link rel="stylesheet" href="./public/styles/auth-styles.css">
+
+</head>
+<body class="user-signup-page">
+  <div class="auth-container">
+    <div class="auth-box">
+      <div class="auth-header">
+        <h1>ثبت نام در سایت</h1>
+        <p>لطفاً اطلاعات خود را برای ایجاد حساب کاربری جدید وارد کنید.</p>
+      </div>
+      <form class="auth-form">
+        <div class="form-group">
+          <label for="fullname">نام و نام خانوادگی</label>
+          <input type="text" id="fullname" placeholder="نام کامل خود را وارد کنید">
+        </div>
+        <div class="form-group">
+          <label for="username-signup">نام کاربری</label>
+          <input type="text" id="username-signup" placeholder="نام کاربری دلخواه">
+        </div>
+        <div class="form-group">
+          <label for="email-signup">ایمیل</label>
+          <input type="email" id="email-signup" placeholder="example@domain.com">
+        </div>
+        <div class="form-group">
+          <label for="password-signup">رمز عبور</label>
+          <input type="password" id="password-signup" placeholder="رمز عبور قوی انتخاب کنید">
+        </div>
+        <div class="form-group">
+          <label for="confirm-password">تأیید رمز عبور</label>
+          <input type="password" id="confirm-password" placeholder="رمز عبور را مجدد وارد کنید">
+        </div>
+        <button type="submit" class="submit-btn">ثبت نام</button>
+        <div class="auth-footer">
+          قبلاً حساب کاربری دارید؟ <a href="userLogin.html">وارد شوید</a>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script src="./public/js/auth-validation.js"></script>
+
+</body>
+</html>
