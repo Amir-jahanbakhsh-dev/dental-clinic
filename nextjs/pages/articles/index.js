@@ -6,7 +6,7 @@ export default function DoctorsPage() {
         <>
             <Header />
             <div className="container mx-auto p-8">
-                <h1 className="text-3xl font-bold mb-6">لیست مقالات ما</h1>
+                <h1 className="text-3xl font-[Btitr] mb-6">لیست مقالات ما</h1>
                 {/* کارت‌های مقاله  */}
             </div>
             <Footer />ّ

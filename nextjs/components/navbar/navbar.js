@@ -20,43 +20,46 @@ export default function Header() {
 
       {/* Main Navbar */}
       <div className="flex items-center justify-between px-6 py-4">
-        
+
         {/* Logo */}
-        <div className="flex items-center gap-2">
-          <Image
-            src="/icons/thin-0826_teeth_tooth_dental.png"
-            alt="logo"
-            width={40}
-            height={40}
-          />
-          <span className="font-bold font-[b-titr] text-lg">
-            کلینیک دندان پزشکی
-          </span>
-        </div>
+        <Link href="/">
+
+          <div className="flex items-center gap-2">
+            <Image
+              src="/icons/thin-0826_teeth_tooth_dental.png"
+              alt="logo"
+              width={40}
+              height={40}
+            />
+            <span className="font-[Btitr] font-[Btitr] text-lg">
+              کلینیک دندان پزشکی
+            </span>
+          </div>
+        </Link>
 
         {/* Desktop Menu */}
-        <ul className="hidden lg:flex items-center gap-6 font-medium font-[b-titr]">
+        <ul className="hidden lg:flex items-center gap-6 font-medium font-[Btitr]">
           <li className="border-b-blue-700 hover:border-b-3"><Link href="/">صفحه اصلی</Link></li>
-          <li className="border-b-blue-700 hover:border-b-3"><Link href="/">درباره ما</Link></li>
-          <li className="border-b-blue-700 hover:border-b-3"><Link href="/">خدمات</Link></li>
-          <li className="border-b-blue-700 hover:border-b-3"><Link href="/">پزشکان</Link></li>
-          <li className="border-b-blue-700 hover:border-b-3"><Link href="/">مقالات</Link></li>
-          <li className="border-b-blue-700 hover:border-b-3"><Link href="/">گالری</Link></li>
-          <li className="border-b-blue-700 hover:border-b-3"><Link href="/">تماس با ما</Link></li>
+          <li className="border-b-blue-700 hover:border-b-3"><Link href="/about">درباره ما</Link></li>
+          <li className="border-b-blue-700 hover:border-b-3"><Link href="/services">خدمات</Link></li>
+          <li className="border-b-blue-700 hover:border-b-3"><Link href="/doctors">پزشکان</Link></li>
+          <li className="border-b-blue-700 hover:border-b-3"><Link href="/articles">مقالات</Link></li>
+          <li className="border-b-blue-700 hover:border-b-3"><Link href="/galery">گالری</Link></li>
+          <li className="border-b-blue-700 hover:border-b-3"><Link href="/contact">تماس با ما</Link></li>
         </ul>
 
         {/* Desktop Buttons */}
         <div className="hidden lg:flex items-center gap-2">
           <Link href="/login">
-              <button className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition w-full py-2 border rounded-lg text-sm">
-                ورود | ثبت نام
-              </button>
-            </Link>
-            <Link href="/signup">
-              <button className="px-4 py-2 hover:bg-mauve-100 transition w-full py-2 border rounded-lg text-sm">
-                 ثبت نام
-              </button>
-            </Link>
+            <button className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition w-full py-2 border rounded-lg text-sm">
+              ورود | ثبت نام
+            </button>
+          </Link>
+          <Link href="/signup">
+            <button className="px-4 py-2 hover:bg-mauve-100 transition w-full py-2 border rounded-lg text-sm">
+              ثبت نام
+            </button>
+          </Link>
 
           {/* <Link href="/adminLogin">
             <button className="px-4 py-2 border rounded-lg text-sm hover:bg-gray-100 transition">
@@ -83,17 +86,17 @@ export default function Header() {
       {/* Mobile Menu */}
       {isOpen && (
         <div className="lg:hidden bg-white border-t px-6 py-4 space-y-4">
-          
+
           {/* Links */}
-          <ul className="flex flex-col gap-4 font-medium text-center pb-2 font-[b-titr] ">
-            
-          <li className="border-b-blue-700 hover:border-b-3 w-50"><Link  href="/"  onClick={() => setIsOpen(false)}>صفحه اصلی</Link></li>
-          <li className="border-b-blue-700 hover:border-b-3 w-50"><Link  href="/">درباره ما</Link></li>
-          <li className="border-b-blue-700 hover:border-b-3 w-50"><Link  href="/">خدمات</Link></li>
-          <li className="border-b-blue-700 hover:border-b-3 w-50"><Link  href="/">پزشکان</Link></li>
-          <li className="border-b-blue-700 hover:border-b-3 w-50"><Link  href="/">مقالات</Link></li>
-          <li className="border-b-blue-700 hover:border-b-3 w-50"><Link  href="/">گالری</Link></li>
-          <li className="border-b-blue-700 hover:border-b-3 w-50"><Link  href="/">تماس با ما</Link></li>
+          <ul className="flex flex-col gap-4 font-medium text-center pb-2 font-[Btitr] ">
+
+            <li className="border-b-blue-700 hover:border-b-3"><Link href="/" onClick={() => setIsOpen(false)}>صفحه اصلی</Link></li>
+            <li className="border-b-blue-700 hover:border-b-3"><Link href="/about">درباره ما</Link></li>
+            <li className="border-b-blue-700 hover:border-b-3"><Link href="/services">خدمات</Link></li>
+            <li className="border-b-blue-700 hover:border-b-3"><Link href="/doctors">پزشکان</Link></li>
+            <li className="border-b-blue-700 hover:border-b-3"><Link href="/articles">مقالات</Link></li>
+            <li className="border-b-blue-700 hover:border-b-3"><Link href="/galery">گالری</Link></li>
+            <li className="border-b-blue-700 hover:border-b-3"><Link href="/contact">تماس با ما</Link></li>
           </ul>
 
           {/* Mobile Buttons */}
@@ -105,7 +108,7 @@ export default function Header() {
             </Link>
             <Link href="/signup">
               <button className="w-full py-2 border rounded-lg text-sm">
-                 ثبت نام
+                ثبت نام
               </button>
             </Link>
 

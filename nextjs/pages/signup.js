@@ -7,7 +7,7 @@ export default function SignupPage() {
         
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">ایجاد حساب کاربری</h1>
+          <h1 className="text-2xl font-[Btitr] text-gray-800 mb-2">ایجاد حساب کاربری</h1>
           <p className="text-gray-500 text-sm">برای استفاده از خدمات ما ثبت نام کنید.</p>
         </div>
 
@@ -55,7 +55,7 @@ export default function SignupPage() {
 
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition duration-300 mt-2"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-[Btitr] py-3 rounded-lg transition duration-300 mt-2"
           >
             ثبت نام
           </button>

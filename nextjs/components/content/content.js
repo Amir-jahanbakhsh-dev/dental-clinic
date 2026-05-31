@@ -11,11 +11,11 @@ export default function Content() {
           لبخند زیبا، اعتماد به نفس بیشتر
         </span>
 
-        <h2 className="text-xl md:text-2xl font-[b-titr]">
+        <h2 className="text-xl md:text-2xl font-[Btitr]">
           ارائه بهترین خدمات
         </h2>
 
-        <h1 className="text-3xl md:text-4xl font-extrabold font-[b-titr]">
+        <h1 className="text-3xl md:text-4xl font-extrabold font-[Btitr]">
           دندان پزشکی برای شما
         </h1>
 
@@ -55,7 +55,9 @@ export default function Content() {
       {/* SERVICES */}
       <section className="mt-20 max-w-7xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-2xl font-bold mb-2">خدمات ما</h2>
+          <Link href="/services">
+            <h2 className="text-2xl font-bold mb-2">خدمات ما</h2>
+          </Link>
           <p className="text-gray-600">
             با بهترین تجهیزات و پزشکان متخصص، خدمات کامل دندانپزشکی را ارائه می‌دهیم.
           </p>
@@ -79,7 +81,43 @@ export default function Content() {
               <div className="text-4xl mb-4">{item.icon}</div>
               <h3 className="font-bold mb-2">{item.title}</h3>
               <p className="text-gray-600 text-sm mb-4">{item.desc}</p>
-              <Link href="/services" className="text-blue-600 text-sm font-medium">
+              <Link href={"/services/"+item.title} className="text-blue-600 text-sm font-medium">
+                مشاهده بیشتر
+              </Link>
+            </div>
+          ))}
+        </div>
+      </section>
+      <hr className="mt-5 mb-5" />
+      <section className="mt-20 max-w-7xl mx-auto">
+        <div className="text-center mb-12">
+          <Link href="articles">
+            <h2 className="text-2xl font-bold mb-2">مقالات ما</h2>
+          </Link>
+          <p className="text-gray-600">
+            لیستی از اطلاعات عمومی در زمینه دندانپزشکی
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          {/* CARDS */}
+          {[
+            { icon: "", title: "ایمپلنت دندان", desc: "جایگزینی دائمی دندان‌های از دست رفته با بهترین متریال." },
+            { icon: "", title: "جرم گیری", desc: "پاکسازی جرم و پلاک‌های دندانی برای سلامت لثه." },
+            { icon: "", title: "کامپوزیت", desc: "اصلاح طرح لبخند با کامپوزیت‌های طبیعی و بادوام." },
+            { icon: "", title: "ارتودنسی", desc: "مرتب‌سازی دندان‌ها با جدیدترین روش‌های درمانی." },
+            { icon: "", title: "بلیچینگ", desc: "سفید کردن دندان‌ها با روش‌های ایمن و حرفه‌ای." },
+            { icon: "", title: "عصب کشی", desc: "درمان ریشه با تجهیزات مدرن و بدون درد." },
+          ].map((item, index) => (
+            <div
+              key={index}
+              className="p-6 border rounded-xl text-center hover:shadow-lg transition"
+            >
+              <div className="text-4xl mb-4">{item.icon}</div>
+              <h3 className="font-bold mb-2">{item.title}</h3>
+              <p className="text-gray-600 text-sm mb-4">{item.desc}</p>
+              <Link href={'/articles/'+item.title} className="text-blue-600 text-sm font-medium">
                 مشاهده بیشتر
               </Link>
             </div>

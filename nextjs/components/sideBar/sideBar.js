@@ -114,7 +114,7 @@ export default function Sidebar() {
               className="rounded-full"
             />
             <div>
-              <h4 className="font-bold text-gray-800">{dr.name}</h4>
+              <h4 className="font-[Btitr] text-gray-800">{dr.name}</h4>
               <p className="text-sm text-gray-500">{dr.specialty}</p>
               <Link href="#" className="text-blue-600 text-sm hover:underline">
                 مشاهده پروفایل

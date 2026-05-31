@@ -5,7 +5,7 @@ export default function AppointmentForm() {
         
         {/* Header */}
         <div className="text-center mb-10">
-          <h1 className="text-3xl font-bold text-gray-800 mb-3">فرم ثبت نوبت</h1>
+          <h1 className="text-3xl font-[Btitr] text-gray-800 mb-3">فرم ثبت نوبت</h1>
           <p className="text-gray-500">لطفاً اطلاعات خود را وارد کنید تا همکاران ما جهت تأیید نوبت با شما تماس بگیرند.</p>
         </div>
 
@@ -76,7 +76,7 @@ export default function AppointmentForm() {
           </div>
 
           {/* دکمه */}
-          <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg shadow-md transition duration-300">
+          <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-[Btitr] py-3 rounded-lg shadow-md transition duration-300">
             ثبت نهایی نوبت
           </button>
 

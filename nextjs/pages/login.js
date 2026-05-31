@@ -7,7 +7,7 @@ export default function LoginPage() {
         
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">ورود به حساب کاربری</h1>
+          <h1 className="text-2xl font-[Btitr] text-gray-800 mb-2">ورود به حساب کاربری</h1>
           <p className="text-gray-500 text-sm">برای ورود، نام کاربری و رمز عبور خود را وارد کنید.</p>
         </div>
 
@@ -39,7 +39,7 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg transition duration-300"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-[Btitr] py-2 rounded-lg transition duration-300"
           >
             ورود
           </button>
