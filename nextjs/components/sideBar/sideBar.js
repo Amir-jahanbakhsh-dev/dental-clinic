@@ -89,17 +89,17 @@ export default function Sidebar() {
           {
             name: "دکتر احمدی",
             specialty: "متخصص ایمپلنت",
-            image: "",
+            image: "/img/bg-header.jpg",
           },
           {
             name: "دکتر مرادی",
             specialty: "متخصص ارتودنسی",
-            image: "",
+            image: "/img/bg-header.jpg",
           },
           {
             name: "دکتر رضایی",
             specialty: "متخصص زیبایی دندان",
-            image: "",
+            image: "/img/bg-header.jpg",
           },
         ].map((dr, index) => (
           <div

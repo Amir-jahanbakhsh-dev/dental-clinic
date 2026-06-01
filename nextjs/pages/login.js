@@ -1,7 +1,11 @@
+import Footer from "@/components/footer/footer";
+import Header from "@/components/navbar/navbar";
 import Link from "next/link";
 
 export default function LoginPage() {
   return (
+    <>
+    <Header/>
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
       <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
         
@@ -54,5 +58,7 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+    <Footer/>
+    </>
   );
 }

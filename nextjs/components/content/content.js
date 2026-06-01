@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-
 export default function Content() {
   return (
     <section className="w-full lg:w-[60%] lg:flex-3 bg-white py-16 px-4 md:px-8">
@@ -11,11 +10,11 @@ export default function Content() {
           لبخند زیبا، اعتماد به نفس بیشتر
         </span>
 
-        <h2 className="text-xl md:text-2xl font-[Btitr]">
+        <h2 className="text-xl md:text-2xl b-titr">
           ارائه بهترین خدمات
         </h2>
 
-        <h1 className="text-3xl md:text-4xl font-extrabold font-[Btitr]">
+        <h1 className="text-3xl md:text-4xl font-extrabold font-b-titr">
           دندان پزشکی برای شما
         </h1>
 

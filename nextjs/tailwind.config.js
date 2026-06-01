@@ -6,9 +6,7 @@ module.exports = {
   ],
   theme: {
     extend: {
-      fontFamily: {
-        Btitr: ['Btitr'], 
-      },
+      
     },
   },
   plugins: [],

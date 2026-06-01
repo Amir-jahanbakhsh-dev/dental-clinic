@@ -1,20 +1,2 @@
 @import "tailwindcss";
 
-@font-face {
-  font-family: 'Btitr';
-  src: url(../public/fonts/B-Titr/B\ Titr\ Bold_0.ttf) format('ttf');
-  font-weight: 500;
-  font-style: normal;
-}
-/* ... (بخش @font-face شما) ... */
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer base {
-  body {
-    /* استفاده از نام فونتی که در tailwind.config.js تعریف کردید */
-    font-family: 'Btitr', sans-serif;
-  }
-}

@@ -52,7 +52,7 @@ export default function Header() {
         <div className="hidden lg:flex items-center gap-2">
           <Link href="/login">
             <button className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition w-full py-2 border rounded-lg text-sm">
-              ورود | ثبت نام
+              ورود
             </button>
           </Link>
           <Link href="/signup">
@@ -103,7 +103,7 @@ export default function Header() {
           <div className="flex flex-col gap-3 pt-4 border-t">
             <Link href="/login">
               <button className="w-full py-2 border rounded-lg text-sm">
-                ورود | ثبت نام
+                ورود
               </button>
             </Link>
             <Link href="/signup">
