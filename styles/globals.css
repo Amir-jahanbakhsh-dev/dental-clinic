@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+
+* {
+  transition: all ease .3s;
+}
+
+button:hover {
+  transform: scale(1.07);
+}
+
+body {
+  background-image: url('/img/moroccan-flower.png')
+}
