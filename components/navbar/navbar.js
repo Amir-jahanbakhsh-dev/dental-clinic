@@ -1,13 +1,43 @@
 "use client";
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { btitr,bnazanin } from "../fonts/fonts";
+import { btitr, bnazanin } from "../fonts/fonts";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
-  
+  const [user, setUser] = useState(null); // نگهداری اطلاعات کاربر
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const res = await fetch("/api/user/profile", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        // در فایل navbar.js، داخل useEffect این را اضافه کنید:
+        if (res.ok) {
+          const data = await res.json();
+          console.log("API Response Data:", data); // <--- این خط را اضافه کنید تا در کنسول مرورگر ببینید چه چیزی می‌آید
+          setUser(data.user || data.data || data); // یک حالت امن‌تر برای گرفتن اطلاعات
+        }
+        
+      } catch (error) {
+        console.error("Auth check failed", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkAuth();
+  }, []);
+
   return (
     <header className="w-full bg-white shadow-sm fixed z-50">
       {/* Top bar */}
@@ -51,22 +81,32 @@ export default function Header() {
 
         {/* Desktop Buttons */}
         <div className="hidden lg:flex items-center gap-2">
-          <Link href="/login">
-            <button className="px-4 py-2 bg-blue-600 font-[Btitr] text-white rounded-lg text-sm hover:bg-blue-700 transition w-full py-2 border rounded-lg text-sm">
-              ورود
-            </button>
-          </Link>
-          <Link href="/signup">
-            <button className="px-4 py-2 font-[Btitr] hover:bg-mauve-100 transition w-full py-2 border rounded-lg text-sm">
-              ثبت نام
-            </button>
-          </Link>
-
-          {/* <Link href="/adminLogin">
-            <button className="px-4 py-2 border rounded-lg text-sm hover:bg-gray-100 transition">
-              ورود مدیر
-            </button>
-          </Link> */}
+          {!loading && (
+            <>
+              {user ? (
+                // اگر کاربر لاگین بود
+                <Link href="/userPanel">
+                  <button className="px-4 py-2 bg-green-600 font-[Btitr] text-white rounded-lg text-sm hover:bg-green-700 transition">
+                    {user.name || "پنل کاربری"}
+                  </button>
+                </Link>
+              ) : (
+                // اگر کاربر لاگین نبود
+                <>
+                  <Link href="/login">
+                    <button className="px-4 py-2 bg-blue-600 font-[Btitr] text-white rounded-lg text-sm hover:bg-blue-700 transition">
+                      ورود
+                    </button>
+                  </Link>
+                  <Link href="/signup">
+                    <button className="px-4 py-2 font-[Btitr] hover:bg-gray-100 transition border rounded-lg text-sm">
+                      ثبت نام
+                    </button>
+                  </Link>
+                </>
+              )}
+            </>
+          )}
 
           <Link href="/rezerv">
             <button className="px-4 py-2 font-[Btitr] bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition">
@@ -102,29 +142,53 @@ export default function Header() {
 
           {/* Mobile Buttons */}
           <div className="flex flex-col gap-3 pt-4 border-t">
-            <Link href="/login">
-              <button className="w-full py-2 border font-[Btitr] rounded-lg text-sm">
-                ورود
-              </button>
-            </Link> 
-            <Link href="/signup">
-              <button className="w-full py-2 border font-[Btitr] rounded-lg text-sm">
-                ثبت نام
-              </button>
-            </Link>
+            {!loading && (
+              <>
+                {user ? (
+                  <>
+                    <Link href="/userPanel" onClick={() => setIsOpen(false)}>
+                      <button className="w-full py-2 bg-green-600 text-white font-[Btitr] rounded-lg text-sm hover:bg-green-700 transition">
+                        {user.name || user.email || "پنل کاربری"}
+                      </button>
+                    </Link>
 
-            {/* <Link href="/adminLogin">
-              <button className="w-full py-2 border rounded-lg text-sm">
-                ورود مدیر
-              </button>
-            </Link> */}
+                    <button
+                      onClick={() => {
+                        localStorage.removeItem("token");
+                        setUser(null);
+                        setIsOpen(false);
+                        router.push("/login");
+                      }}
+                      className="w-full py-2 border border-red-400 text-red-500 font-[Btitr] rounded-lg text-sm hover:bg-red-50 transition"
+                    >
+                      خروج از حساب
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link href="/login" onClick={() => setIsOpen(false)}>
+                      <button className="w-full py-2 border font-[Btitr] rounded-lg text-sm">
+                        ورود
+                      </button>
+                    </Link>
 
-            <Link href="/rezerv">
+                    <Link href="/signup" onClick={() => setIsOpen(false)}>
+                      <button className="w-full py-2 border font-[Btitr] rounded-lg text-sm">
+                        ثبت نام
+                      </button>
+                    </Link>
+                  </>
+                )}
+              </>
+            )}
+
+            <Link href="/rezerv" onClick={() => setIsOpen(false)}>
               <button className="w-full py-2 font-[Btitr] bg-blue-600 text-white rounded-lg text-sm">
                 رزرو نوبت
               </button>
             </Link>
           </div>
+
         </div>
       )}
     </header>

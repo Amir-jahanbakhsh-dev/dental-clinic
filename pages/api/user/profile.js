@@ -1,4 +1,5 @@
 import dbConnect from '@/lib/mongodb'; 
+import User from '@/models/User';
 import user from '@/models/User';
 import jwt from 'jsonwebtoken';
 
