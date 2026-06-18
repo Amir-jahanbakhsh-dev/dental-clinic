@@ -34,8 +34,8 @@ export default async function handler(req, res) {
         email: user.email,
         name: user.name,
       },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" }
+       process.env.JWT_SECRET , // <--- این را اضافه کن
+      { expiresIn: '1h' }
     );
 
     return res.status(200).json({

@@ -1,85 +1,111 @@
 import Image from "next/image";
 import Link from "next/link";
-
+import { useState } from 'react';
 export default function Sidebar() {
+  const [doctors, setDoctors] = useState([]);
+  const fetchDoctors = async () => {
+    try {
+      const res = await fetch('/api/admin/doctors');
+      const result = await res.json();
+
+      // دقت کنید: اگر API شما خروجی را داخل یک آبجکت مثل { data: [...] } می‌فرستد
+      // حتما باید result.data را ست کنید، نه خودِ result را.
+      if (result.success) {
+        console.log(result);
+
+        setDoctors(result.data);
+      } else {
+        setDoctors([]); // اگر خطا داشت، آرایه خالی قرار بده
+      }
+    } catch (error) {
+      console.error(error);
+      setDoctors([]); // در صورت خطای شبکه، آرایه خالی قرار بده
+    }
+  };
+
+
   return (
     <aside className="w-full lg:w-[40%] lg:flex-1  bg-gray-50 p-6 rounded-lg shadow space-y-10">
       {/* 1️⃣ رزرو نوبت */}
-      <section className="space-y-5">
-        <h3 className="text-xl font-semibold text-gray-700 border-b font-[Btitr] pb-2"><Link  href="/rezerv"> رزرو نوبت</Link></h3>
+      <Link href='/rezerv'>
+        <section className="space-y-5">
+          <h3 className="text-xl font-semibold text-gray-700 border-b font-[Btitr] pb-2"><Link href="/rezerv"> رزرو نوبت</Link></h3>
 
-        <form className="space-y-4">
-          <div>
-            <label htmlFor="service" className="block mb-1 text-sm font-[Btitr] text-gray-600">
-              انتخاب خدمت
-            </label>
-            <select
-              id="service"
-              name="service"
-              className="w-full border font-[Bnazanin] border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
+          <form className="space-y-4">
+            <div>
+              <label htmlFor="service" className="block mb-1 text-sm font-[Btitr] text-gray-600">
+                انتخاب خدمت
+              </label>
+              <select
+                id="service"
+                name="service"
+                className="w-full border font-[Bnazanin] border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">لطفاً انتخاب کنید</option>
+                <option value="cleaning">جرم گیری</option>
+                <option value="implant">ایمپلنت</option>
+                <option value="orthodontics">ارتودنسی</option>
+                <option value="composite">کامپوزیت</option>
+              </select>
+            </div>
+
+            <div>
+              <label htmlFor="doctor" className="block mb-1 font-[Btitr] text-sm text-gray-600">
+                انتخاب دکتر
+              </label>
+              <select
+                id="doctor"
+                name="doctor"
+                className="w-full border border-gray-300 font-[Bnazanin] rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">لطفاً پزشک را انتخاب کنید</option>
+                {doctors.map((doc) => (
+                  <option key={doc._id} value={doc._id}>
+                    {doc.name} - {doc.specialty}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label htmlFor="date" className="block mb-1 font-[Btitr] text-sm text-gray-600">
+                انتخاب تاریخ
+              </label>
+              <input
+                type="date"
+                id="date"
+                name="date"
+                className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="time" className="block mb-1 font-[Btitr] text-sm text-gray-600">
+                انتخاب ساعت
+              </label>
+              <select
+                id="time"
+                name="time"
+                className="w-full border border-gray-300 rounded-lg p-2 font-[Bnazanin] text-sm focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">لطفاً انتخاب کنید</option>
+                {["09:00", "10:00", "11:00", "12:00", "16:00", "17:00"].map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white py-2 rounded-lg font-[Btitr] font-medium hover:bg-blue-700 transition"
             >
-              <option value="">لطفاً انتخاب کنید</option>
-              <option value="cleaning">جرم گیری</option>
-              <option value="implant">ایمپلنت</option>
-              <option value="orthodontics">ارتودنسی</option>
-              <option value="composite">کامپوزیت</option>
-            </select>
-          </div>
-
-          <div>
-            <label htmlFor="doctor" className="block mb-1 font-[Btitr] text-sm text-gray-600">
-              انتخاب دکتر
-            </label>
-            <select
-              id="doctor"
-              name="doctor"
-              className="w-full border border-gray-300 font-[Bnazanin] rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">لطفاً انتخاب کنید</option>
-              <option value="dr-ahmadi">دکتر احمدی</option>
-              <option value="dr-moradi">دکتر مرادی</option>
-              <option value="dr-rezaei">دکتر رضایی</option>
-            </select>
-          </div>
-
-          <div>
-            <label htmlFor="date" className="block mb-1 font-[Btitr] text-sm text-gray-600">
-              انتخاب تاریخ
-            </label>
-            <input
-              type="date"
-              id="date"
-              name="date"
-              className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="time" className="block mb-1 font-[Btitr] text-sm text-gray-600">
-              انتخاب ساعت
-            </label>
-            <select
-              id="time"
-              name="time"
-              className="w-full border border-gray-300 rounded-lg p-2 font-[Bnazanin] text-sm focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">لطفاً انتخاب کنید</option>
-              {["09:00", "10:00", "11:00", "12:00", "16:00", "17:00"].map((t) => (
-                <option key={t} value={t}>
-                  {t}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-lg font-[Btitr] font-medium hover:bg-blue-700 transition"
-          >
-            ثبت درخواست نوبت
-          </button>
-        </form>
-      </section>
+              ثبت درخواست نوبت
+            </button>
+          </form>
+        </section>
+      </Link>
 
       {/* 2️⃣ پزشکان ما */}
       <section className="space-y-5">

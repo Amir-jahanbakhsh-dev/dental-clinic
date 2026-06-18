@@ -5,7 +5,10 @@ export default function Content() {
     <section className="w-full lg:w-[60%] lg:flex-3 bg-white py-16 px-4 md:px-8">
 
       {/* TEXT CONTENT */}
-      <div className="max-w-7xl mx-auto text-center space-y-4">
+      <div className="max-w-7xl mx-auto text-center p-10 rounded-2xl bg-cover bg-no-repeat bg-center space-y-4"
+        style={{
+          backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url('/img/bg-head.jpg')"
+        }}>
         <span className="text-blue-600 font-medium">
           لبخند زیبا، اعتماد به نفس بیشتر
         </span>
@@ -80,7 +83,7 @@ export default function Content() {
               <div className="text-4xl mb-4">{item.icon}</div>
               <h3 className="font-bold font-[Btitr] mb-2">{item.title}</h3>
               <p className="text-gray-600 font-[Bnazanin] text-md mb-4">{item.desc}</p>
-              <Link href={"/services/"+item.title} className="text-blue-600 font-[Btitr] text-sm font-medium">
+              <Link href={"/services/" + item.title} className="text-blue-600 font-[Btitr] text-sm font-medium">
                 مشاهده بیشتر
               </Link>
             </div>
@@ -116,7 +119,7 @@ export default function Content() {
               <div className="text-4xl mb-4">{item.icon}</div>
               <h3 className="font-bold font-[Btitr] mb-2">{item.title}</h3>
               <p className="text-gray-600 font-[Bnazanin]  text-md mb-4">{item.desc}</p>
-              <Link href={'/articles/'+item.title} className="text-blue-600 text-sm font-medium">
+              <Link href={'/articles/' + item.title} className="text-blue-600 text-sm font-medium">
                 مشاهده بیشتر
               </Link>
             </div>
