@@ -1,5 +1,5 @@
 // pages/api/admin/users/[id].js
-import dbConnect from "@/lib/dbConnect"; // فرض می‌کنیم این فایل برای اتصال به دیتابیس است
+import dbConnect from "@/lib/mongodb"; // فرض می‌کنیم این فایل برای اتصال به دیتابیس است
 import User from "@/models/User"; // فرض می‌کنیم مدل User شما در این مسیر است
 
 export default async function handler(req, res) {

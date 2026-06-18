@@ -1,5 +1,5 @@
 "use client";
-import { useState , useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import Footer from "@/components/footer/footer";
@@ -9,22 +9,29 @@ export default function AppointmentForm() {
   const router = useRouter();
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
- const [token, setToken] = useState(null);
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
-    // این کد فقط در مرورگر اجرا می‌شود
+    // این کد را داخل تابع هندلر کلیک یا useEffect قرار دهید
     const storedToken = localStorage.getItem("token");
+
+    // ۱. ابتدا استیت را آپدیت کنید (برای استفاده‌های بعدی در کامپوننت)
     setToken(storedToken);
-    
-    if (!token) {
-    Swal.fire({
-      icon: "warning",
-      title: "عدم دسترسی",
-      text: "برای ثبت نوبت ابتدا باید وارد حساب کاربری خود شوید.",
-      confirmButtonText: "رفتن به صفحه ورود",
-    }).then(() => router.push("/login"));
-    return;
-  }
+
+    // ۲. به جای چک کردن استیت (token)، مستقیماً خودِ متغیر (storedToken) را چک کنید
+    if (!storedToken) {
+      Swal.fire({
+        icon: "warning",
+        title: "عدم دسترسی",
+        text: "برای ثبت نوبت ابتدا باید وارد حساب کاربری خود شوید.",
+        confirmButtonText: "رفتن به صفحه ورود",
+      }).then(() => router.push("/login"));
+      return;
+    }
+
+    // اگر کد به اینجا برسد، یعنی توکن وجود دارد و کاربر می‌تواند ادامه دهد
+    router.push("/rezerv");
+
   }, []);
   const fetchDoctors = async () => {
     try {
@@ -70,7 +77,7 @@ export default function AppointmentForm() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   // const token = localStorage.getItem("token");
-  
+
 
   const handleSubmit = async (e) => {
     const token = localStorage.getItem("token");

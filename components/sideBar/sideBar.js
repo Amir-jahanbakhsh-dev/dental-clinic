@@ -29,7 +29,7 @@ export default function Sidebar() {
       {/* 1️⃣ رزرو نوبت */}
       <Link href='/rezerv'>
         <section className="space-y-5">
-          <h3 className="text-xl font-semibold text-gray-700 border-b font-[Btitr] pb-2"><Link href="/rezerv"> رزرو نوبت</Link></h3>
+          <h3 className="text-xl font-semibold text-gray-700 border-b font-[Btitr] pb-2"> رزرو نوبت</h3>
 
           <form className="space-y-4">
             <div>
