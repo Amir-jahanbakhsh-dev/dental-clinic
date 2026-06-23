@@ -5,6 +5,7 @@ const DoctorSchema = new mongoose.Schema({
   specialty: { type: String, required: true },
   medicalCode: { type: String, required: true, unique: true },
   phone: { type: String },
+  image: { type: String, default: '/img/default-doctor.png' }, // <--- اضافه شد
   status: { type: String, default: 'فعال' },
 }, { timestamps: true });
 

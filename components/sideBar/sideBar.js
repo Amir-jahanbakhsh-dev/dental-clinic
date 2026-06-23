@@ -131,7 +131,7 @@ export default function Sidebar() {
               className="flex items-center gap-3 bg-white p-3 rounded-lg border hover:shadow transition"
             >
               <Image
-                src={dr.image || "/default-doctor.png"} // یک عکس پیش‌فرض در صورت نبود عکس
+                src={dr.image || "/img/default-doctor.png"} // یک عکس پیش‌فرض در صورت نبود عکس
                 width={70}
                 height={70}
                 alt={dr.name || "پزشک"}
