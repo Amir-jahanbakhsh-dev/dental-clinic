@@ -64,9 +64,21 @@ export default function PatientsPage() {
                             <h1 className="text-2xl md:text-3xl font-bold text-slate-800">
                                 مدیریت بیماران
                             </h1>
+                            <p className="text-slate-500 mt-1">
+                                مشاهده، جستجو و مدیریت اطلاعات بیماران
+                            </p>
                         </div>
 
-                       
+                        <div className="flex gap-3">
+                            <input
+                                type="text"
+                                placeholder="جستجوی بیمار..."
+                                className="w-full md:w-72 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                            <button className="rounded-xl bg-blue-600 px-5 py-2.5 text-white hover:bg-blue-700 transition">
+                                افزودن بیمار
+                            </button>
+                        </div>
                     </div>
                 </div>
 

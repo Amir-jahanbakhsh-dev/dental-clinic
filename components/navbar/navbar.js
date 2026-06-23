@@ -21,15 +21,19 @@ export default function Header() {
         const res = await fetch("/api/user/profile", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        // در فایل navbar.js، داخل useEffect این را اضافه کنید:
+
         if (res.ok) {
           const data = await res.json();
-          console.log("API Response Data:", data); // <--- این خط را اضافه کنید تا در کنسول مرورگر ببینید چه چیزی می‌آید
-          setUser(data.user || data.data || data); // یک حالت امن‌تر برای گرفتن اطلاعات
+          setUser(data.user || data.data || data);
+        } else {
+          // اگر توکن وجود داشت ولی سرور تایید نکرد (مثلاً منقضی شده)
+          localStorage.removeItem("token");
+          setUser(null);
         }
-        
       } catch (error) {
         console.error("Auth check failed", error);
+        localStorage.removeItem("token"); // در صورت خطا، توکن را پاک کن
+        setUser(null);
       } finally {
         setLoading(false);
       }

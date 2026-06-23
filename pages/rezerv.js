@@ -12,27 +12,28 @@ export default function AppointmentForm() {
   const [token, setToken] = useState(null);
 
   useEffect(() => {
-    // این کد را داخل تابع هندلر کلیک یا useEffect قرار دهید
-    const storedToken = localStorage.getItem("token");
+    const checkAuth = () => {
+      // 1. مستقیم از localStorage مقدار را بگیر
+      const storedToken = localStorage.getItem("token");
 
-    // ۱. ابتدا استیت را آپدیت کنید (برای استفاده‌های بعدی در کامپوننت)
-    setToken(storedToken);
+      // 2. استیت را برای استفاده در بقیه کامپوننت‌ها آپدیت کن
+      setToken(storedToken);
 
-    // ۲. به جای چک کردن استیت (token)، مستقیماً خودِ متغیر (storedToken) را چک کنید
-    if (!storedToken) {
-      Swal.fire({
-        icon: "warning",
-        title: "عدم دسترسی",
-        text: "برای ثبت نوبت ابتدا باید وارد حساب کاربری خود شوید.",
-        confirmButtonText: "رفتن به صفحه ورود",
-      }).then(() => router.push("/login"));
-      return;
-    }
+      // 3. برای شرطِ ریدایرکت، از خودِ متغیر 'storedToken' استفاده کن، نه از استیت 'token'
+      if (!storedToken) {
+        Swal.fire({
+          icon: "warning",
+          title: "عدم دسترسی",
+          text: "برای ثبت نوبت ابتدا باید وارد حساب کاربری خود شوید.",
+          confirmButtonText: "رفتن به صفحه ورود",
+        }).then(() => router.push("/login"));
+        return;
+      }
+    };
 
-    // اگر کد به اینجا برسد، یعنی توکن وجود دارد و کاربر می‌تواند ادامه دهد
-    router.push("/rezerv");
+    checkAuth();
+  }, []); // دقت کنید که وابستگی‌ها (dependencies) را درست مدیریت کنید
 
-  }, []);
   const fetchDoctors = async () => {
     try {
       const res = await fetch('/api/admin/doctors');

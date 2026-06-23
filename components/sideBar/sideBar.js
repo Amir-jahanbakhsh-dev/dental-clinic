@@ -1,27 +1,45 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from 'react';
+import { useEffect, useState } from "react";
 export default function Sidebar() {
   const [doctors, setDoctors] = useState([]);
-  const fetchDoctors = async () => {
-    try {
-      const res = await fetch('/api/admin/doctors');
-      const result = await res.json();
+  const [comments, setComments] = useState([]);
+  useEffect(() => {
+    // تعریف توابع برای خوانایی بهتر
+    const fetchDoctors = async () => {
+      try {
+        const res = await fetch("/api/admin/doctors");
+        const result = await res.json(); // نام را از data به result تغییر دادم تا با داخلش قاطی نشود
 
-      // دقت کنید: اگر API شما خروجی را داخل یک آبجکت مثل { data: [...] } می‌فرستد
-      // حتما باید result.data را ست کنید، نه خودِ result را.
-      if (result.success) {
-        console.log(result);
-
-        setDoctors(result.data);
-      } else {
-        setDoctors([]); // اگر خطا داشت، آرایه خالی قرار بده
+        if (result.success && Array.isArray(result.data)) {
+          setDoctors(result.data); // فقط آرایه را ذخیره می‌کنیم
+        } else {
+          console.error("ساختار داده ارسالی از API درست نیست یا موفقیت‌آمیز نیست", result);
+          setDoctors([]);
+        }
+      } catch (err) {
+        console.error("خطا در لود پزشکان:", err);
+        setDoctors([]);
       }
-    } catch (error) {
-      console.error(error);
-      setDoctors([]); // در صورت خطای شبکه، آرایه خالی قرار بده
-    }
-  };
+    };
+
+
+    const fetchComments = async () => {
+      try {
+        const res = await fetch("/api/messages");
+        const data = await res.json();
+        setComments(data);
+      } catch (err) {
+        console.error("خطا در لود نظرات:", err);
+      }
+    };
+
+    // فراخوانی همزمان
+    fetchDoctors();
+    fetchComments();
+  }, []);
+  console.log('doctor:' , doctors)
+
 
 
   return (
@@ -58,12 +76,6 @@ export default function Sidebar() {
                 name="doctor"
                 className="w-full border border-gray-300 font-[Bnazanin] rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
               >
-                <option value="">لطفاً پزشک را انتخاب کنید</option>
-                {doctors.map((doc) => (
-                  <option key={doc._id} value={doc._id}>
-                    {doc.name} - {doc.specialty}
-                  </option>
-                ))}
               </select>
             </div>
 
@@ -111,71 +123,55 @@ export default function Sidebar() {
       <section className="space-y-5">
         <h3 className="text-xl font-semibold text-gray-700 border-b font-[Btitr] pb-2">پزشکان ما</h3>
 
-        {[
-          {
-            name: "دکتر احمدی",
-            specialty: "متخصص ایمپلنت",
-            image: "",
-          },
-          {
-            name: "دکتر مرادی",
-            specialty: "متخصص ارتودنسی",
-            image: "",
-          },
-          {
-            name: "دکتر رضایی",
-            specialty: "متخصص زیبایی دندان",
-            image: "",
-          },
-        ].map((dr, index) => (
-          <div
-            key={index}
-            className="flex items-center gap-3 bg-white p-3 rounded-lg border hover:shadow transition"
-          >
-            <Image
-              src={dr.image}
-              width={70}
-              height={70}
-              alt={dr.name}
-              className="rounded-full"
-            />
-            <div>
-              <h4 className="font-[Btitr] text-gray-800">{dr.name}</h4>
-              <p className="text-sm text-gray-500">{dr.specialty}</p>
-              <Link href="#" className="text-blue-600 text-sm hover:underline">
-                مشاهده پروفایل
-              </Link>
+        {/* بررسی اینکه حتما آرایه باشد */}
+        {Array.isArray(doctors) && doctors.length > 0 ? (
+          doctors.map((dr, index) => (
+            <div
+              key={index}
+              className="flex items-center gap-3 bg-white p-3 rounded-lg border hover:shadow transition"
+            >
+              <Image
+                src={dr.image || "/default-doctor.png"} // یک عکس پیش‌فرض در صورت نبود عکس
+                width={70}
+                height={70}
+                alt={dr.name || "پزشک"}
+                className="rounded-full"
+              />
+              <div>
+                <h4 className="font-[Btitr] text-gray-800">{dr.name}</h4>
+                <p className="text-sm text-gray-500">{dr.specialty}</p>
+                <Link href={`/doctors/${dr.id}`} className="text-blue-600 text-sm hover:underline">
+                  مشاهده پروفایل
+                </Link>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p className="text-sm text-gray-400">در حال دریافت لیست پزشکان...</p>
+        )}
       </section>
 
       {/* 3️⃣ نظرات بیماران */}
-      <section className="space-y-5">
-        <h3 className="text-xl font-semibold text-gray-700 border-b pb-2 font-[Btitr]">نظرات بیماران</h3>
+      <section section className="space-y-5" >
+        <h3 className="text-xl font-semibold text-gray-700 border-b pb-2 font-[Btitr]">
+          نظرات بیماران
+        </h3>
 
-        {[
-          {
-            text: "برخورد پزشکان بسیار عالی بود و روند درمانم خیلی خوب پیش رفت.",
-            author: "سارا محمدی",
-          },
-          {
-            text: "کلینیک بسیار تمیز و منظم بود و از نتیجه درمانم کاملاً راضی هستم.",
-            author: "علی رضایی",
-          },
-          {
-            text: "نوبت‌دهی سریع و رفتار پرسنل خیلی حرفه‌ای بود.",
-            author: "نگار کریمی",
-          },
-        ].map((c, i) => (
-          <div
-            key={i}
-            className="bg-white p-4 border rounded-lg shadow-sm font-[Bnazanin] hover:shadow transition"
-          >
-            <p className="text-gray-600 text-sm">{c.text}</p>
-            <span className="text-sm text-gray-800 block mt-2">— {c.author}</span>
-          </div>
-        ))}
+        {
+          comments.length > 0 ? (
+            comments.map((c, i) => (
+              <div
+                key={i}
+                className="bg-white p-3 border rounded-lg shadow-sm font-[Bnazanin] hover:shadow transition"
+              >
+                <p className="text-gray-600 text-sm">{c.message}</p>
+                <span className="text-sm text-gray-800 block mt-2 font-bold">— {c.sender}</span>
+              </div>
+            ))
+          ) : (
+            <p className="text-sm text-gray-400">در حال دریافت نظرات...</p>
+          )
+        }
       </section>
     </aside>
   );

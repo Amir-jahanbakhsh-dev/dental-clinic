@@ -1,4 +1,4 @@
-import dbConnect from '../../../lib/dbConnect';
+import dbConnect from '../../../lib/mongodb';
 import User from '../../../models/User';
 import crypto from 'crypto'; // برای ساخت توکن موقت
 import nodemailer from 'nodemailer';
