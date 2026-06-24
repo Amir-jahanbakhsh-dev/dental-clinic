@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AdminLayout from '@/components/admin/AdminLayout';
 import Swal from 'sweetalert2';
-
+import Link from 'next/link';
 export default function AppointmentsManagementPage() {
   const [appointments, setAppointments] = useState([]);
   const [stats, setStats] = useState({ total: 0, confirmed: 0, pending: 0, cancelled: 0 });
@@ -22,8 +22,9 @@ export default function AppointmentsManagementPage() {
 
       console.log("Full API Response:", appointmentsData); // حتماً چک کنید این در کنسول بیاید
 
-      if (appointmentsData.success && Array.isArray(appointmentsData.data)) {
-        setAppointments(appointmentsData.data); // اینجا باید مستقیم آرایه ست شود
+      if (appointmentsData.success && Array.isArray(appointmentsData.appointments)) {
+        setAppointments(appointmentsData.appointments);
+        console.log('nobatha successfully loaded:', appointmentsData.appointments);
       } else {
         console.error("Data is not an array or success is false");
         setAppointments([]);
@@ -59,7 +60,7 @@ export default function AppointmentsManagementPage() {
 
     if (result.isConfirmed) {
       try {
-        const res = await fetch(`/api/admin/appointments/${id}`, { method: 'DELETE' });
+        const res = await fetch(`/api/appointment/${id}`, { method: 'DELETE' });
         if (res.ok) {
           Swal.fire('حذف شد!', 'نوبت با موفقیت لغو شد.', 'success');
           fetchData(); // رفرش کردن لیست بعد از حذف
@@ -69,6 +70,43 @@ export default function AppointmentsManagementPage() {
       }
     }
   };
+  const handleConfirm = async (id) => {
+    // ۱. نمایش باکس تایید با SweetAlert
+    const result = await Swal.fire({
+      title: "تأیید نوبت",
+      text: "آیا از تأیید این نوبت اطمینان دارید؟",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#10b981", // سبز
+      cancelButtonColor: "#d33",    // قرمز
+      confirmButtonText: "بله، تأیید شود",
+      cancelButtonText: "انصراف",
+    });
+
+    // ۲. اگر کاربر کنسل کرد، از تابع خارج شو
+    if (!result.isConfirmed) return;
+
+    try {
+      // ۳. فراخوانی API که ساختیم
+      const res = await fetch(`/api/appointment/${id}`, {
+        method: 'PATCH',
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        // ۴. نمایش پیام موفقیت و رفرش کردن لیست
+        Swal.fire("انجام شد!", "نوبت با موفقیت تأیید شد.", "success");
+        fetchData(); // این تابع همان تابعی است که لیست را از سرور می‌گیرد
+      } else {
+        Swal.fire("خطا!", data.message || "مشکلی پیش آمد", "error");
+      }
+    } catch (error) {
+      console.error("Error confirming appointment:", error);
+      Swal.fire("خطا!", "ارتباط با سرور برقرار نشد", "error");
+    }
+  };
+
 
   // فیلتر کردن لیست بر اساس جستجو (در سمت کلاینت برای سرعت بالا)
   const filteredAppointments = appointments?.filter(app => {
@@ -98,9 +136,11 @@ export default function AppointmentsManagementPage() {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full md:w-72 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-blue-500"
               />
-              <button className="rounded-xl bg-blue-600 px-5 py-2.5 text-white hover:bg-blue-700 transition font-medium">
-                ثبت نوبت جدید
-              </button>
+              <Link href="/rezerv">
+                <button className="rounded-xl bg-blue-600 px-5 py-2.5 text-white hover:bg-blue-700 transition font-medium">
+                  ثبت نوبت جدید
+                </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -170,6 +210,13 @@ export default function AppointmentsManagementPage() {
                           >
                             حذف
                           </button>
+                          <button
+                            onClick={() => handleConfirm(app._id)}
+                            className="text-green-600 hover:text-green-900 ml-3"
+                          >
+                            تأیید
+                          </button>
+
                         </td>
                       </tr>
                     ))

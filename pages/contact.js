@@ -2,14 +2,41 @@ import Footer from '@/components/footer/footer';
 import Header from '@/components/navbar/navbar';
 import React from 'react';
 import { useState } from 'react';
+import Swal from 'sweetalert2';
 const Contact = () => {
     const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-  
+
     const handleSubmit = async (e) => {
-      e.preventDefault();
-      // اینجا می‌توانید منطق ارسال فرم به API خود را بنویسید
-      console.log('Form Data:', formData);
-      alert('پیام شما با موفقیت ارسال شد!');
+        e.preventDefault();
+
+        try {
+            const res = await fetch("/api/messages", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    sender: formData.name,
+                    email: formData.email,
+                    subject: formData.message,
+                    message: formData.message,
+                }),
+            });
+
+            if (res.ok) {
+                localStorage.setItem("survey_shown", "true");
+                await Swal.fire("موفق", "نظر شما با موفقیت ارسال شد.", "success");
+            } else {
+                throw new Error("API error");
+            }
+        } catch (error) {
+            await Swal.fire("خطا", "ارسال پیام با مشکل مواجه شد.", "error");
+        }
+        setFormData({
+            name: '' , email: '', message: ''
+        })
+        document.querySelectorAll('input').forEach(inp=>inp.value='')
+        document.querySelector('textarea').value=''
     };
     return (
         <>
@@ -49,7 +76,7 @@ const Contact = () => {
                     </div>
                     <button
                         type="submit"
-                        
+
                         className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300"
                     >
                         ارسال پیام

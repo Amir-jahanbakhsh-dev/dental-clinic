@@ -1,6 +1,26 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 export default function Content() {
+  const [services, setServices] = useState([]);
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const res = await fetch("/api/services");
+        const data = await res.json();
+        console.log(data);
+
+        setServices(Array.isArray(data.data) ? data.data : []);
+      } catch (error) {
+        console.error("Error fetching services:", error);
+      }
+    };
+
+    fetchServices();
+  }, []);
+  // در صفحه اصلی قبل از return:
+console.log("تعداد سرویس‌ها:", services?.length);
   return (
     <section className="w-full lg:w-[60%] lg:flex-3 bg-white py-16 px-4 md:px-8">
 
@@ -53,11 +73,10 @@ export default function Content() {
           </Link>
         </div>
       </div>
-
       {/* SERVICES */}
-      <section className="mt-20 max-w-7xl mx-auto">
+      <section className="mt-20 max-w-7xl mx-auto px-4">
         <div className="text-center mb-12">
-          <Link href="/services">
+          <Link href="/services" className="inline-block">
             <h2 className="text-2xl font-bold font-[Btitr] mb-2">خدمات ما</h2>
           </Link>
           <p className="text-gray-600 text-md font-[Bnazanin]">
@@ -66,30 +85,59 @@ export default function Content() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-          {/* CARDS */}
-          {[
-            { icon: "🦷", title: "ایمپلنت دندان", desc: "جایگزینی دائمی دندان‌های از دست رفته با بهترین متریال." },
-            { icon: "✨", title: "جرم گیری", desc: "پاکسازی جرم و پلاک‌های دندانی برای سلامت لثه." },
-            { icon: "😁", title: "کامپوزیت", desc: "اصلاح طرح لبخند با کامپوزیت‌های طبیعی و بادوام." },
-            { icon: "📐", title: "ارتودنسی", desc: "مرتب‌سازی دندان‌ها با جدیدترین روش‌های درمانی." },
-            { icon: "💡", title: "بلیچینگ", desc: "سفید کردن دندان‌ها با روش‌های ایمن و حرفه‌ای." },
-            { icon: "🩺", title: "عصب کشی", desc: "درمان ریشه با تجهیزات مدرن و بدون درد." },
-          ].map((item, index) => (
+          {services?.slice(0, 6)?.map((service) => (
             <div
-              key={index}
-              className="p-6 border rounded-xl text-center hover:shadow-xl hover:scale-105 transition"
+              key={service._id || service.slug}
+              className="p-6 border rounded-xl text-center hover:shadow-xl hover:scale-105 transition bg-white"
             >
-              <div className="text-4xl mb-4">{item.icon}</div>
-              <h3 className="font-bold font-[Btitr] mb-2">{item.title}</h3>
-              <p className="text-gray-600 font-[Bnazanin] text-md mb-4">{item.desc}</p>
-              <Link href={"/services/" + item.title} className="text-blue-600 font-[Btitr] text-sm font-medium">
+              <div className="flex justify-center mb-4">
+                {service.image ? (
+                  <img
+                    src={service.image}
+                    alt={service.title}
+                    className="w-16 h-16 object-cover rounded-full"
+                  />
+                ) : (
+                  <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-3xl">
+                    🦷
+                  </div>
+                )}
+              </div>
+
+              <h3 className="font-bold font-[Btitr] mb-2 text-lg">
+                {service.title}
+              </h3>
+
+              <p className="text-gray-600 font-[Bnazanin] text-md mb-4 line-clamp-3">
+                {service.shortDescription || service.description?.slice(0, 120)}
+              </p>
+
+              {service.price && (
+                <p className="text-blue-600 font-bold mb-4">
+                  {service.price.toLocaleString()} تومان
+                </p>
+              )}
+
+              <Link
+                href={`/services/${service.slug}`}
+                className="text-blue-600 font-[Btitr] text-sm font-medium hover:text-blue-800 transition"
+              >
                 مشاهده بیشتر
               </Link>
             </div>
           ))}
         </div>
+
+        <div className="text-center mt-10">
+          <Link
+            href="/services"
+            className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition"
+          >
+            مشاهده همه خدمات
+          </Link>
+        </div>
       </section>
+
       <hr className="mt-5 mb-5" />
       <section className="mt-20 max-w-7xl mx-auto">
         <div className="text-center mb-12">

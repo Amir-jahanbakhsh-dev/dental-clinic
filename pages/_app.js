@@ -10,7 +10,7 @@ function MyApp({ Component, pageProps }) {
 
     const timer = setTimeout(() => {
       showSurveyAlert();
-    }, 3); // 5 دقیقه
+    }, 5000); // 5 دقیقه
 
     return () => clearTimeout(timer);
   }, []);

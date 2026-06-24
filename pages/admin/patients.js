@@ -8,16 +8,61 @@ export default function PatientsPage() {
     const [patients, setPatients] = useState([]); // وضعیت برای نگهداری لیست بیماران
     const [loading, setLoading] = useState(true); // وضعیت برای نمایش پیام "در حال بارگذاری"
 
+
+    const handleDeleteUser = async (id) => {
+        const result = await Swal.fire({
+            title: "حذف کاربر",
+            text: "آیا از حذف این کاربر اطمینان دارید؟ این عمل غیرقابل بازگشت است!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "بله، حذف شود",
+            cancelButtonText: "انصراف",
+        });
+
+        if (!result.isConfirmed) return;
+
+        try {
+            const res = await fetch(`/api/users/${id}`, {
+                method: "DELETE",
+            });
+            const data = await res.json();
+
+            if (data.success) {
+                Swal.fire("حذف شد!", data.message, "success");
+                fetchUsers(); // تابع‌ای که لیست کاربران را از سرور می‌گیرد و رفرش می‌کند
+            } else {
+                Swal.fire("خطا", data.message, "error");
+            }
+        } catch (error) {
+            Swal.fire("خطا", "خطای شبکه", "error");
+        }
+    };
+    const viewUserDetail = async (id) => {
+        try {
+            const res = await fetch(`/api/admin/users/${id}`, {
+                method: "GET",
+            });
+            const data = await res.json();
+
+            if (data.success) {
+                // اینجا می‌توانید اطلاعات کاربر را در یک Modal یا State قرار دهید
+                console.log("اطلاعات کاربر:", data.data);
+                // مثال: setSelectedUser(data.data);
+            } else {
+                Swal.fire("خطا", data.message, "error");
+            }
+        } catch (error) {
+            Swal.fire("خطا", "ارتباط با سرور برقرار نشد", "error");
+        }
+    };
+
     // تابع برای دریافت اطلاعات بیماران از API
     const fetchPatients = async () => {
         try {
-            // اگر نیاز به توکن یا احراز هویت داشتید، اینجا اضافه کنید
-            // const token = localStorage.getItem("token");
-            // const headers = token ? { Authorization: `Bearer ${token}` } : {};
-
             const res = await fetch("/api/admin/users", { // آدرس API جدید
                 method: "GET",
-                // headers: headers, 
             });
 
             const data = await res.json();
@@ -131,19 +176,22 @@ export default function PatientsPage() {
                                                     : "-"} {/* تاریخ شمسی */}
                                             </td>
                                             <td className="px-6 py-4">
-                                                <span className={`inline-flex rounded-full px-3 py-1 text-xs font-medium ${patient.status === "فعال" ? "bg-green-100 text-green-700" :
-                                                        patient.status === "در انتظار" ? "bg-yellow-100 text-yellow-700" :
-                                                            "bg-red-100 text-red-700" // برای وضعیت‌های دیگر مثل غیرفعال یا حذف شده
-                                                    }`}>
-                                                    {patient.status || "نامشخص"}
-                                                </span>
+
                                             </td>
                                             <td className="px-6 py-4">
                                                 <div className="flex gap-2">
-                                                    <button className="rounded-lg bg-slate-100 px-3 py-1.5 text-xs text-slate-700 hover:bg-slate-200">
+                                                    <button
+                                                        onClick={() => viewUserDetail(patient._id)}
+                                                        className="text-blue-600 hover:text-blue-900 font-medium"
+                                                    >
                                                         مشاهده
                                                     </button>
-                                                    <button className="rounded-lg bg-red-50 px-3 py-1.5 text-xs text-red-600 hover:bg-red-100">
+
+                                                    {/* دکمه حذف */}
+                                                    <button
+                                                        onClick={() => handleDeleteUser(patient._id)}
+                                                        className="text-red-600 hover:text-red-900 font-medium"
+                                                    >
                                                         حذف
                                                     </button>
                                                 </div>
