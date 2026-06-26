@@ -24,14 +24,16 @@ export default function PatientsPage() {
         if (!result.isConfirmed) return;
 
         try {
-            const res = await fetch(`/api/users/${id}`, {
+            const res = await fetch(`/api/admin/users/${id}`, {
                 method: "DELETE",
             });
             const data = await res.json();
+            console.log(data);
+
 
             if (data.success) {
                 Swal.fire("حذف شد!", data.message, "success");
-                fetchUsers(); // تابع‌ای که لیست کاربران را از سرور می‌گیرد و رفرش می‌کند
+                fetchPatients()
             } else {
                 Swal.fire("خطا", data.message, "error");
             }
@@ -41,15 +43,33 @@ export default function PatientsPage() {
     };
     const viewUserDetail = async (id) => {
         try {
-            const res = await fetch(`/api/admin/users/${id}`, {
+            const res = await fetch(`/api/user/${id}`, {
                 method: "GET",
             });
             const data = await res.json();
+            console.log(data.data);
 
             if (data.success) {
-                // اینجا می‌توانید اطلاعات کاربر را در یک Modal یا State قرار دهید
-                console.log("اطلاعات کاربر:", data.data);
-                // مثال: setSelectedUser(data.data);
+                Swal.fire({
+                    title: "<span style='font-size: 1.5rem;'>اطلاعات پروفایل کاربر</span>",
+                    html: `
+    <div style="text-align: right; direction: rtl; font-family: Tahoma, Arial; line-height: 2;">
+      <p><strong>👤 نام کاربر:</strong> ${data.data.name || 'ثبت نشده'}</p>
+      <p><strong>📧 ایمیل:</strong> ${data.data.email || 'ثبت نشده'}</p>
+      <p><strong>📱 تلفن:</strong> ${data.data.phone || 'موبایل وارد نشده'}</p>
+      <p><strong>🆔 کد ملی:</strong> ${data.data.nationalId || 'کد ملی وارد نشده'}</p>
+      </p>
+    </div>
+  `,
+                    icon: "info", // یا "success" بسته به نیاز شما
+                    confirmButtonText: "بستن",
+                    confirmButtonColor: "#16a34a",
+                    customClass: {
+                        popup: 'my-swal-popup' // اگر می‌خواهید استایل خاصی بدهید
+                    }
+                });
+
+
             } else {
                 Swal.fire("خطا", data.message, "error");
             }

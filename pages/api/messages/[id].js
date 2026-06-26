@@ -43,7 +43,7 @@ export default async function handler(req, res) {
         return res.status(404).json({ message: "پیام پیدا نشد" });
       }
 
-      return res.status(200).json({ message: "پیام حذف شد" });
+      return res.status(200).json({success:true , message: "پیام حذف شد" });
     }
 
     return res.status(405).json({ message: "Method not allowed" });

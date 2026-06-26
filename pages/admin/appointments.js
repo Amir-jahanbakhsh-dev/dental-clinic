@@ -174,6 +174,7 @@ export default function AppointmentsManagementPage() {
                     <th className="px-6 py-4 text-sm font-semibold text-slate-700">بیمار</th>
                     <th className="px-6 py-4 text-sm font-semibold text-slate-700">پزشک</th>
                     <th className="px-6 py-4 text-sm font-semibold text-slate-700">تاریخ و ساعت</th>
+                    <th className="px-6 py-4 text-sm font-semibold text-slate-700">شماره تماس</th>
                     <th className="px-6 py-4 text-sm font-semibold text-slate-700">وضعیت</th>
                     <th className="px-6 py-4 text-sm font-semibold text-slate-700">عملیات</th>
                   </tr>
@@ -193,6 +194,9 @@ export default function AppointmentsManagementPage() {
                         </td>
 
                         {/* نمایش شماره تماس */}
+                        <td className="px-6 py-4 text-sm text-gray-600">
+                          {app.date || "بدون شماره"}
+                        </td>
                         <td className="px-6 py-4 text-sm text-gray-600">
                           {app.phone || "بدون شماره"}
                         </td>

@@ -2,9 +2,12 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { btitr, bnazanin } from "../fonts/fonts";
+import { btitr,bnazanin } from "../fonts/fonts";
+import { useRouter } from 'next/router';
+
 
 export default function Header() {
+   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState(null); // نگهداری اطلاعات کاربر
   const [loading, setLoading] = useState(true);

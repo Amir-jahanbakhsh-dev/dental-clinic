@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import AdminLayout from "@/components/admin/AdminLayout";
+import Swal from "sweetalert2";
 
 export default function MessagesPage() {
   const [messages, setMessages] = useState([]);
@@ -51,6 +52,37 @@ export default function MessagesPage() {
       fetchMessages(search);
     } catch (error) {
       console.error("View message error:", error);
+    }
+  };
+  const handleDeleteMessage = async (id) => {
+    const result = await Swal.fire({
+      title: "حذف پیام",
+      text: "آیا از حذف این پیام اطمینان دارید؟ این عمل غیرقابل بازگشت است!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "بله، حذف شود",
+      cancelButtonText: "انصراف",
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      const res = await fetch(`/api/messages/${id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      console.log(data);
+      
+      if (data.success) {
+        Swal.fire("حذف شد!", data.message, "success");
+        fetchMessages();
+      } else {
+        Swal.fire("خطا", data.message, "error");
+      }
+    } catch (error) {
+      Swal.fire("خطا", "خطای شبکه", "error");
     }
   };
 
@@ -157,19 +189,18 @@ export default function MessagesPage() {
                       </td>
                       <td className="px-6 py-4">
                         <span
-                          className={`inline-flex rounded-full px-3 py-1 text-xs font-medium ${
-                            message.status === "replied"
+                          className={`inline-flex rounded-full px-3 py-1 text-xs font-medium ${message.status === "replied"
                               ? "bg-green-100 text-green-700"
                               : message.status === "read"
-                              ? "bg-blue-100 text-blue-700"
-                              : "bg-yellow-100 text-yellow-700"
-                          }`}
+                                ? "bg-blue-100 text-blue-700"
+                                : "bg-yellow-100 text-yellow-700"
+                            }`}
                         >
                           {message.status === "replied"
                             ? "پاسخ داده شده"
                             : message.status === "read"
-                            ? "خوانده شده"
-                            : "خوانده نشده"}
+                              ? "خوانده شده"
+                              : "خوانده نشده"}
                         </span>
                       </td>
                       <td className="px-6 py-4">
@@ -185,6 +216,12 @@ export default function MessagesPage() {
                             className="rounded-lg bg-blue-50 px-3 py-1.5 text-xs text-blue-700 hover:bg-blue-100"
                           >
                             پاسخ
+                          </button>
+                          <button
+                            onClick={() => handleDeleteMessage(message._id)}
+                            className="rounded-lg bg-red-500 px-3 py-1.5 text-xs text-red-50  hover:bg-red-400"
+                          >
+                            حذف
                           </button>
                         </div>
                       </td>

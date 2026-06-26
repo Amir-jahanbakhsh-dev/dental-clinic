@@ -1,57 +1,74 @@
-// این کد برای Pages Router است
-import { NextResponse } from "next/server"; 
+// Pages Router API
 import bcrypt from "bcryptjs";
-import dbConnect from "@/lib/mongodb"; 
-import User from "@/models/User"; 
-export default async function handler(req, res) { 
-  if (req.method === 'POST') {
+import dbConnect from "@/lib/mongodb";
+import User from "@/models/User";
+
+export default async function handler(req, res) {
+  if (req.method === "POST") {
     try {
       await dbConnect();
-      
-      // در Pages Router، داده‌ها از req.body می‌آیند
-      const { name, email, password } = req.body;
 
-      if (!name || !email || !password) {
-        return res.status(400).json({ message: "همه فیلدها الزامی هستند" });
+      const { name, email, password, phone, nationalId } = req.body;
+
+
+      // بررسی فیلدهای ضروری
+      if (!name || !phone) {
+        return res.status(400).json({
+          message: "نام و شماره تلفن الزامی هستند",
+        });
       }
 
-      const existingUser = await User.findOne({ email });
-      if (existingUser) {
-        return res.status(409).json({ message: "این ایمیل قبلاً ثبت شده است" });
+      // بررسی تکراری بودن ایمیل
+      if (email) {
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+          return res.status(409).json({
+            message: "این ایمیل قبلاً ثبت شده است",
+          });
+        }
       }
 
-      const hashedPassword = await bcrypt.hash(password, 10);
+      // بررسی تکراری بودن شماره
+      const existingPhone = await User.findOne({ phone });
+      if (existingPhone) {
+        return res.status(409).json({
+          message: "این شماره تلفن قبلاً ثبت شده است",
+        });
+      }
+
+      let hashedPassword = null;
+      if (password) {
+        hashedPassword = await bcrypt.hash(password, 10);
+      }
 
       const user = await User.create({
         name,
         email,
         password: hashedPassword,
+        phone: phone || null,
+        nationalId: nationalId || null
       });
-
-      // اطلاعات کاربر را بدون رمز عبور برگردان
-      const newUser = {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        createdAt: user.createdAt,
-      };
-
       return res.status(201).json({
         message: "کاربر با موفقیت ثبت شد",
-        user: newUser,
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          phone: user.phone,    
+          nationalId: user.nationalId,  
+        },
       });
 
     } catch (error) {
-      console.error("خطای سرور در API:", error);
-      // اگر خطای JSON parsing بود (مثلاً بدنه درخواست خالی یا نامعتبر)
-      if (error.message.includes('JSON')) { // این یک روش تقریبی است
-        return res.status(400).json({ message: "خطا در دریافت JSON، فرمت درخواست نامعتبر است." });
-      }
-      return res.status(500).json({ message: "خطای داخلی سرور", error: error.message });
+      console.error("Server Error:", error);
+
+      return res.status(500).json({
+        message: "خطای داخلی سرور",
+        error: error.message,
+      });
     }
   } else {
-    // اگر متد درخواست POST نبود
-    res.setHeader('Allow', ['POST']);
+    res.setHeader("Allow", ["POST"]);
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }

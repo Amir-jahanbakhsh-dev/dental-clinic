@@ -1,19 +1,29 @@
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/router"; // برای هدایت به صفحه لاگین
-import Swal from "sweetalert2"; // مطمئن شوید نصبش کردید: npm install sweetalert2
+import { useRouter } from "next/router";
+import Swal from "sweetalert2";
 import Footer from "@/components/footer/footer";
 import Header from "@/components/navbar/navbar";
 
 export default function SignupPage() {
   const router = useRouter();
-  const [formData, setFormData] = useState({ name: "", email: "", password: "", confirmPassword: "" });
+  
+  // اضافه کردن فیلدهای جدید به state
+  const [formData, setFormData] = useState({ 
+    name: "", 
+    email: "", 
+    password: "", 
+    confirmPassword: "", 
+    phone: "", 
+    nationalId: "", 
+    lastVisit: "" 
+  });
+  
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // چک کردن تطابق رمز عبور
     if (formData.password !== formData.confirmPassword) {
       return Swal.fire({ icon: "error", title: "خطا", text: "رمز عبور و تکرار آن یکسان نیستند!" });
     }
@@ -28,6 +38,9 @@ export default function SignupPage() {
           name: formData.name,
           email: formData.email,
           password: formData.password,
+          phone: formData.phone,           // ارسال فیلدهای جدید
+          nationalId: formData.nationalId, // ارسال فیلدهای جدید
+          lastVisit: formData.lastVisit,   // ارسال فیلدهای جدید
         }),
       });
 
@@ -37,7 +50,7 @@ export default function SignupPage() {
         Swal.fire({
           icon: "success",
           title: "موفقیت‌آمیز",
-          text: "ثبت‌ نام با موفقیت انجام شد. هدایت به صفحه ورود...",
+          text: "ثبت‌ نام با موفقیت انجام شد.",
           timer: 2000,
           showConfirmButton: false,
         }).then(() => router.push("/login"));
@@ -58,78 +71,59 @@ export default function SignupPage() {
         <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
           <div className="text-center mb-8">
             <h1 className="text-2xl font-[Btitr] text-gray-800 mb-2">ایجاد حساب کاربری</h1>
-            <p className="text-gray-500 text-sm">برای استفاده از خدمات ما ثبت نام کنید.</p>
           </div>
 
-          <form className="space-y-5" onSubmit={handleSubmit}>
+          <form className="space-y-4" onSubmit={handleSubmit}>
             {/* نام */}
-            <div className="space-y-2">
+            <div>
               <label className="block text-sm font-medium text-gray-700">نام و نام خانوادگی</label>
-              <input
-                required
-                type="text"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                placeholder="نام خود را وارد کنید"
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              />
+              <input required type="text" className="w-full px-4 py-2 border rounded-lg"
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
             </div>
 
             {/* ایمیل */}
-            <div className="space-y-2">
+            <div>
               <label className="block text-sm font-medium text-gray-700">ایمیل</label>
-              <input
-                required
-                type="email"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                placeholder="example@email.com"
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              />
+              <input type="email" className="w-full px-4 py-2 border rounded-lg"
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
+            </div>
+
+            {/* شماره تلفن (جدید) */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">شماره تلفن</label>
+              <input required type="tel" className="w-full px-4 py-2 border rounded-lg"
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })} />
+            </div>
+
+            {/* کد ملی (جدید) */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">کد ملی</label>
+              <input type="text" className="w-full px-4 py-2 border rounded-lg"
+                onChange={(e) => setFormData({ ...formData, nationalId: e.target.value })} />
             </div>
 
             {/* رمز عبور */}
-            <div className="space-y-2">
+            <div>
               <label className="block text-sm font-medium text-gray-700">رمز عبور</label>
-              <input
-                required
-                type="password"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                placeholder="رمز عبور قوی انتخاب کنید"
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              />
+              <input required type="password" className="w-full px-4 py-2 border rounded-lg"
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })} />
             </div>
 
             {/* تکرار رمز عبور */}
-            <div className="space-y-2">
+            <div>
               <label className="block text-sm font-medium text-gray-700">تکرار رمز عبور</label>
-              <input
-                required
-                type="password"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                placeholder="رمز عبور را تکرار کنید"
-                onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-              />
+              <input required type="password" className="w-full px-4 py-2 border rounded-lg"
+                onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })} />
             </div>
 
-            <button
-              disabled={isLoading}
-              type="submit"
-              className={`w-full ${isLoading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"} text-white font-[Btitr] py-3 rounded-lg transition duration-300 mt-2`}
-            >
+            <button disabled={isLoading} type="submit" 
+              className={`w-full ${isLoading ? "bg-gray-400" : "bg-blue-600"} text-white py-3 rounded-lg`}>
               {isLoading ? "در حال ثبت..." : "ثبت نام"}
             </button>
           </form>
-
-          <div className="mt-6 text-center text-sm text-gray-600">
-            قبلاً ثبت نام کرده‌اید؟{" "}
-            <Link href="/login" className="text-blue-600 font-semibold hover:underline">
-              وارد شوید
-            </Link>
-          </div>
         </div>
       </div>
       <Footer />
     </>
   );
 }
-
-

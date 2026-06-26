@@ -1,5 +1,5 @@
 import dbConnect from "@/lib/mongodb";
-import User from "@/models/User";  
+import User from "@/models/User";
 
 export default async function handler(req, res) {
   const { id } = req.query;
@@ -20,44 +20,56 @@ export default async function handler(req, res) {
         });
       }
 
+      // به جای ارسال مستقیم user، یک آبجکت ساختاریافته بسازید
+      const userData = {
+        _id: user._id,
+        name: user.name || "",
+        email: user.email || "",
+        phone: user.phone || "ثبت نشده",     
+        nationalId: user.nationalId || "ثبت نشده",
+        lastVisit: user.lastVisit || 'ثبت نشده',
+      };
+
       return res.status(200).json({
         success: true,
-        data: user,
+        data: userData, 
       });
     }
+
+  
 
     // ---------------------------------------------------------
     // ۲. حذف یک کاربر (DELETE)
     // ---------------------------------------------------------
     if (req.method === "DELETE") {
-      const deletedUser = await User.findByIdAndDelete(id);
+    const deletedUser = await User.findByIdAndDelete(id);
 
-      if (!deletedUser) {
-        return res.status(404).json({
-          success: false,
-          message: "کاربر پیدا نشد و امکان حذف وجود ندارد",
-        });
-      }
-
-      return res.status(200).json({
-        success: true,
-        message: "کاربر با موفقیت حذف شد",
+    if (!deletedUser) {
+      return res.status(404).json({
+        success: false,
+        message: "کاربر پیدا نشد و امکان حذف وجود ندارد",
       });
     }
 
-    // ---------------------------------------------------------
-    // مدیریت متدهای دیگر
-    // ---------------------------------------------------------
-    return res.status(405).json({
-      success: false,
-      message: "متد مجاز نیست (فقط GET و DELETE)",
-    });
-
-  } catch (error) {
-    console.error("User API Error:", error);
-    return res.status(500).json({
-      success: false,
-      message: "خطای سرور در مدیریت کاربران",
+    return res.status(200).json({
+      success: true,
+      message: "کاربر با موفقیت حذف شد",
     });
   }
+
+  // ---------------------------------------------------------
+  // مدیریت متدهای دیگر
+  // ---------------------------------------------------------
+  return res.status(405).json({
+    success: false,
+    message: "متد مجاز نیست (فقط GET و DELETE)",
+  });
+
+} catch (error) {
+  console.error("User API Error:", error);
+  return res.status(500).json({
+    success: false,
+    message: "خطای سرور در مدیریت کاربران",
+  });
+}
 }
