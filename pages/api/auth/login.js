@@ -33,8 +33,9 @@ export default async function handler(req, res) {
         id: user._id,
         email: user.email,
         name: user.name,
+        role: user.role,
       },
-       process.env.JWT_SECRET , // <--- این را اضافه کن
+      process.env.JWT_SECRET || "dev_secret_change_me",
       { expiresIn: '1h' }
     );
 
@@ -45,6 +46,7 @@ export default async function handler(req, res) {
         id: user._id,
         name: user.name,
         email: user.email,
+        role: user.role,
       },
     });
   } catch (error) {

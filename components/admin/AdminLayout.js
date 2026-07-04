@@ -7,6 +7,16 @@ const AdminLayout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const router = useRouter();
 
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/admin-logout', { method: 'POST' });
+    } catch (error) {
+      console.error('Admin logout error:', error);
+    } finally {
+      router.push('/admin/login');
+    }
+  };
+
   const navItems = [
     { label: 'داشبورد', href: '/admin', icon: '🏠' },
     { label: 'مدیریت نوبت‌ها', href: '/admin/appointments', icon: '📅' },
@@ -66,10 +76,11 @@ const AdminLayout = ({ children }) => {
             </nav>
           </div>
 
-          <button className="w-full rounded-lg bg-blue-600 py-2 font-semibold text-white transition hover:bg-blue-700">
-            <Link href='/'>
-              خروج از حساب
-            </Link>
+          <button
+            onClick={handleLogout}
+            className="w-full rounded-lg bg-blue-600 py-2 font-semibold text-white transition hover:bg-blue-700"
+          >
+            خروج از حساب
           </button>
 
         </div>

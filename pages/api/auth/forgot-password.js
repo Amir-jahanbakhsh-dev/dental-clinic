@@ -1,7 +1,6 @@
 import dbConnect from '../../../lib/mongodb';
 import User from '../../../models/User';
 import crypto from 'crypto'; // برای ساخت توکن موقت
-import nodemailer from 'nodemailer';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -32,17 +31,32 @@ export default async function handler(req, res) {
     user.resetPasswordExpires = Date.now() + 3600000; // اعتبار ۱ ساعت (به میلی‌ثانیه)
     await user.save();
 
-    // 3. تنظیمات ارسال ایمیل (باید اطلاعات SMTP خود را اینجا بگذارید)
-    // فعلاً از سرویس‌های مثل Gmail یا Mailtrap استفاده می‌شود
+    // 3. تنظیمات ارسال ایمیل (باید اطلاعات SMTP خود را در فایل .env قرار دهید)
+    const emailConfigured = process.env.EMAIL_USER && process.env.EMAIL_PASS;
+
+    const resetUrl = `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/reset-password?token=${resetToken}`;
+
+    if (!emailConfigured) {
+      // اگر تنظیمات SMTP در .env وارد نشده باشد (مثلاً هنگام توسعه روی سیستم شخصی)
+      // به‌جای کرش کردن سرور، لینک بازیابی در کنسول نمایش داده می‌شود تا امکان تست وجود داشته باشد.
+      console.warn('EMAIL_USER/EMAIL_PASS تنظیم نشده‌اند. لینک بازیابی رمز فقط در کنسول نمایش داده می‌شود:');
+      console.warn(resetUrl);
+
+      return res.status(200).json({
+        message: 'اگر این ایمیل در سیستم باشد، لینک بازیابی ارسال می‌شود',
+        ...(process.env.NODE_ENV !== 'production' ? { devResetUrl: resetUrl } : {}),
+      });
+    }
+
+    const nodemailer = (await import('nodemailer')).default;
+
     const transporter = nodemailer.createTransport({
-      service: 'gmail', 
+      service: 'gmail',
       auth: {
         user: process.env.EMAIL_USER, // ایمیل شما
         pass: process.env.EMAIL_PASS, // App Password گوگل
       },
     });
-
-    const resetUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/reset-password?token=${resetToken}`;
 
     const mailOptions = {
       from: '"نام سایت شما" <noreply@yourdomain.com>',

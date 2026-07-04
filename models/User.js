@@ -7,6 +7,35 @@ const UserSchema = new mongoose.Schema({
     trim: true
   },
 
+  // این فیلدها وجود نداشتند در حالی که API های ورود/ثبت‌نام/فراموشی رمز به آن‌ها نیاز داشتند (باگ اصلی احراز هویت)
+  email: {
+    type: String,
+    trim: true,
+    lowercase: true,
+    default: null
+  },
+
+  password: {
+    type: String,
+    default: null
+  },
+
+  role: {
+    type: String,
+    enum: ["user", "admin"],
+    default: "user"
+  },
+
+  resetPasswordToken: {
+    type: String,
+    default: null
+  },
+
+  resetPasswordExpires: {
+    type: Date,
+    default: null
+  },
+
   phone: {
     type: String,
     required: true

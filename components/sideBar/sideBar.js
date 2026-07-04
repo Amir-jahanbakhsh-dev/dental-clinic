@@ -43,7 +43,7 @@ export default function Sidebar() {
 
 
   return (
-    <aside className="w-full lg:w-[40%] lg:flex-1  bg-gray-50 p-6 rounded-lg shadow space-y-10">
+    <aside data-aos="fade-left" className="w-full lg:w-[40%] lg:flex-1  bg-gray-50 p-6 rounded-lg shadow space-y-10">
       {/* 1️⃣ رزرو نوبت */}
       <Link href='/rezerv'>
         <section className="space-y-5">

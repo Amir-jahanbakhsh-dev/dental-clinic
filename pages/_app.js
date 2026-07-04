@@ -1,8 +1,27 @@
 import { useEffect } from "react";
+import { useRouter } from "next/router";
 import Swal from "sweetalert2";
+import AOS from "aos";
+import "aos/dist/aos.css";
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
+  const router = useRouter();
+
+  useEffect(() => {
+    // راه‌اندازی کتابخانه AOS برای انیمیشن‌های اسکرول در کل سایت
+    AOS.init({
+      duration: 800,
+      once: true,
+      offset: 80,
+    });
+
+    // چون Next.js بین صفحات به‌صورت کلاینت‌ساید جابه‌جا می‌شود، باید AOS را رفرش کنیم
+    const handleRouteChange = () => AOS.refresh();
+    router.events.on("routeChangeComplete", handleRouteChange);
+    return () => router.events.off("routeChangeComplete", handleRouteChange);
+  }, [router.events]);
+
   useEffect(() => {
     if (typeof window === "undefined") return;
 

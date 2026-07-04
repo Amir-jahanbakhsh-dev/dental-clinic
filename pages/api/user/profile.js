@@ -21,7 +21,7 @@ export default async function handler(req, res) {
     const token = authHeader.split(' ')[1];
 
     // 2. تایید توکن
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || "dev_secret_change_me");
 
     // 3. پیدا کردن کاربر در دیتابیس بر اساس ID موجود در توکن
     const user = await User.findById(decoded.id).select('-password'); // حذف رمز عبور از خروجی
